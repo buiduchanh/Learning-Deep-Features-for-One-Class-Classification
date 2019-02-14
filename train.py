@@ -6,6 +6,7 @@ from keras import backend as K
 from keras.engine.network import Network
 from keras.datasets import fashion_mnist
 
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -15,7 +16,7 @@ from sklearn.preprocessing import MinMaxScaler
 from keras.models import load_model
 
 from data import makedata
-
+os.environ["CUDA_VISIBLE_DEVICES"]="1"
 input_shape = (96, 96, 3)
 classes = 10
 batchsize = 128
