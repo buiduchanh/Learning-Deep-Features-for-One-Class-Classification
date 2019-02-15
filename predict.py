@@ -10,20 +10,22 @@ from sklearn import metrics
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import load_model
 
-from data import makedata
+from data import mnist_data,kyocera_data
 
 import numpy as np
 import matplotlib.pyplot as plt
 
 input_shape = (96, 96, 3)
-classes = 10
+classes = 2
 #feature_out = 512 #secondary network out for VGG16
 feature_out = 1280 #secondary network out for MobileNet
 alpha = 0.5 #for MobileNetV2
 lambda_ = 0.1 #for compact loss
 
-(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
-X_train_s, X_ref, y_ref, X_test_s, X_test_b = makedata(x_train,x_test,y_train,y_test)
+# (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
+# X_train_s, X_ref, y_ref, X_test_s, X_test_b = mnist_data(x_train,x_test,y_train,y_test)
+data_path = '/home/asilla/hanh/Deep_Descriptive/data/kyocera'
+X_train_s, X_ref, y_ref, X_test_s, X_test_b = kyocera_data(data_path)
 
 mobile = MobileNetV2(include_top=True, input_shape=input_shape, alpha=alpha,
                          depth_multiplier=1, weights='imagenet')
@@ -38,15 +40,24 @@ for layer in mobile.layers:
 
 model = Model(inputs=mobile.input,outputs=mobile.layers[-1].output)
 
-model.load_weights('')
+model.load_weights('model/model_t_499.h5')
+# model.load_weights('model/model_t_0_des-2.918100118637085_compact-0.3944999873638153.h5')
 
+print('xtrain shape', X_train_s.shape)
 train = model.predict(X_train_s)
+print('train pre',train.shape)
 test_s = model.predict(X_test_s)
+print('tests pre',test_s.shape)
 test_b = model.predict(X_test_b)
+print('test b pre',test_b.shape)
 
 train = train.reshape((len(X_train_s),-1))
+print('reshape train',train.shape)
 test_s = test_s.reshape((len(X_test_s),-1))
+print('reshape tests',test_s.shape)
 test_b = test_b.reshape((len(X_test_b),-1))
+print('reshape testb',test_b.shape)
+exit()
 
 #0-1に変換
 ms = MinMaxScaler()
@@ -78,5 +89,6 @@ plt.legend()
 plt.title('ROC curve')
 plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
-plt.grid(True)
-plt.show()
+# plt.grid(True)
+# plt.show()
+plt.savefig('test_kyocera.png')
