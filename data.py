@@ -94,7 +94,7 @@ def kyocera_data(data_path):
     for cp1 in cp1_normal:
         x_train_s.append(cp1)
         x_ref.append(cp1)
-        y_ref.append(1)
+        y_ref.append(0)
     
     cp1_test_path =  os.path.join(cp1_path, 'test')
     cp1_test_normal = os.path.join(cp1_test_path,'OK')
@@ -113,7 +113,7 @@ def kyocera_data(data_path):
     smd_train_files = sorted(glob.glob('{}/*'.format(smd_train)))
     for smd_file in smd_train_files:
         x_ref.append(smd_file)
-        y_ref.append(2)
+        y_ref.append(1)
     
     X_train_s = resize_data(x_train_s)
     X_ref = resize_data(x_ref)
