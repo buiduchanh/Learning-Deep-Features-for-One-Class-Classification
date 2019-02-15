@@ -15,10 +15,10 @@ from sklearn import metrics
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import load_model
 
-from data import makedata
-os.environ["CUDA_VISIBLE_DEVICES"]="1"
+from data import mnist_data, kyocera_data
+# os.environ["CUDA_VISIBLE_DEVICES"]="1"
 input_shape = (96, 96, 3)
-classes = 10
+classes = 2
 batchsize = 128
 # feature_out = 512 #secondary network out for VGG16
 feature_out = 1280 #secondary network out for MobileNet
@@ -116,8 +116,10 @@ def train(x_target, x_ref, y_ref, epoch_num):
 
 
 if __name__ == "__main__":
-    (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
-    X_train_s, X_ref, y_ref, X_test_s, X_test_b = makedata(x_train,x_test,y_train,y_test)
+    # (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
+    # X_train_s, X_ref, y_ref, X_test_s, X_test_b = mnist_data(x_train,x_test,y_train,y_test)
+    data_path = '/home/asilla/hanh/Deep_Descriptive/data/kyocera'
+    X_train_s, X_ref, y_ref, X_test_s, X_test_b = kyocera_data(data_path)
     train(X_train_s, X_ref, y_ref, 500)
 
     
