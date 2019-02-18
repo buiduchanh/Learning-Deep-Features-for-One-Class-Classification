@@ -11,6 +11,7 @@ from sklearn.preprocessing import MinMaxScaler
 from keras.models import load_model
 
 from data import mnist_data,kyocera_data
+from utils.evaluate import caculate_acc
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -77,6 +78,7 @@ Z2 = -clf._decision_function(test_b)
 y_true = np.zeros(len(test_s)+len(test_b))
 y_true[len(test_s):] = 1#0:正常、1：異常
 
+precision, recall, f1 = caculate_acc(y_true, np.hstack((Z1,Z2)))
 # FPR, TPR(, しきい値) を算出
 fpr, tpr, _ = metrics.roc_curve(y_true, np.hstack((Z1, Z2)))
 
