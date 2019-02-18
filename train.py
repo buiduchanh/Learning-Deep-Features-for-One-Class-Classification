@@ -111,8 +111,8 @@ def train(x_target, x_ref, y_ref, epoch_num):
         loss_c.append(np.mean(lc))
 
         print("epoch : {} ,Descriptive loss : {}, Compact loss : {}".format(epochnumber+1, loss[-1], loss_c[-1]))
-        model_t.save_weights('model/model_t_{}.h5'.format(epochnumber))
-
+        model_t.save_weights('model/model_t_smd_{}.h5'.format(epochnumber))
+        model_r.save_weights('model/model_r_smd_{}.h5'.format(epochnumber))
 
 
 if __name__ == "__main__":
