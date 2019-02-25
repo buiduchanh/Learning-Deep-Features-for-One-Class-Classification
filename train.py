@@ -120,7 +120,7 @@ if __name__ == "__main__":
     # (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
     # X_train_s, X_ref, y_ref, X_test_s, X_test_b = mnist_data(x_train,x_test,y_train,y_test)
     data_path = '/home/asilla/hanh/Deep_Descriptive/data/kyocera'
-    X_train_s, X_ref, y_ref, X_test_s, X_test_b = kyocera_data(data_path)
+    X_train_s, X_ref, y_ref, X_test_s, X_test_b, _, _ = kyocera_data(data_path)
     train(X_train_s, X_ref, y_ref, 500)
 
     
