@@ -12,7 +12,7 @@ from keras.models import load_model
 
 from data import mnist_data,kyocera_data
 from utils.evaluate import caculate_acc
-
+import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -25,8 +25,8 @@ lambda_ = 0.1 #for compact loss
 
 # (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
 # X_train_s, X_ref, y_ref, X_test_s, X_test_b = mnist_data(x_train,x_test,y_train,y_test)
-data_path = '/home/asilla/hanh/Deep_Descriptive/data/kyocera'
-X_train_s, X_ref, y_ref, X_test_s, X_test_b = kyocera_data(data_path)
+data_path = 'D:\Project\deep_one\Deep_Descriptive\data\kyocera'
+X_train_s, X_ref, y_ref, X_test_s, X_test_b ,x_test_s_path, x_test_b_path = kyocera_data(data_path)
 
 mobile = MobileNetV2(include_top=True, input_shape=input_shape, alpha=alpha,
                          depth_multiplier=1, weights='imagenet')
@@ -58,7 +58,6 @@ test_s = test_s.reshape((len(X_test_s),-1))
 print('reshape tests',test_s.shape)
 test_b = test_b.reshape((len(X_test_b),-1))
 print('reshape testb',test_b.shape)
-exit()
 
 #0-1に変換
 ms = MinMaxScaler()
@@ -77,8 +76,10 @@ Z2 = -clf._decision_function(test_b)
 #ROC曲線の描画
 y_true = np.zeros(len(test_s)+len(test_b))
 y_true[len(test_s):] = 1#0:正常、1：異常
+path = x_test_s_path + x_test_b_path
 
-precision, recall, f1 = caculate_acc(y_true, np.hstack((Z1,Z2)))
+
+precision, recall, f1 = caculate_acc(y_true, np.hstack((Z1,Z2)),path)
 # FPR, TPR(, しきい値) を算出
 fpr, tpr, _ = metrics.roc_curve(y_true, np.hstack((Z1, Z2)))
 

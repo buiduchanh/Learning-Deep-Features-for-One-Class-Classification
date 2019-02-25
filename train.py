@@ -20,8 +20,8 @@ from data import mnist_data, kyocera_data
 input_shape = (96, 96, 3)
 classes = 2
 batchsize = 128
-# feature_out = 512 #secondary network out for VGG16
-feature_out = 1280 #secondary network out for MobileNet
+feature_out = 512 #secondary network out for VGG16
+# feature_out = 1280 #secondary network out for MobileNet
 alpha = 0.5 #for MobileNetV2
 lambda_ = 0.1 #for compact loss
 
@@ -33,19 +33,20 @@ def train(x_target, x_ref, y_ref, epoch_num):
 
     # VGG16読み込み, S network用
     print("Model build...")
-    # mobile = VGG16(include_top=False, input_shape=input_shape, weights='imagenet')
+    mobile = VGG16(include_top=False, input_shape=input_shape, weights='imagenet')
 
     # mobile net読み込み, S network用
-    mobile = MobileNetV2(include_top=True, input_shape=input_shape, alpha=alpha,
-                         depth_multiplier=1, weights='imagenet')
+    # mobile = MobileNetV2(include_top=True, input_shape=input_shape, alpha=alpha,
+    #                      depth_multiplier=1, weights='imagenet')
 
     #最終層削除
     mobile.layers.pop() 
 
     # 重みを固定
     for layer in mobile.layers:
-        if layer.name == "block_13_expand": # "block5_conv1": for VGG16
-        # if layer.name == "block5_conv1":
+        print(layer.name)
+        # if layer.name == "block_13_expand": # "block5_conv1": for VGG16
+        if layer.name == "block5_conv1":
             break
         else:
             layer.trainable = False
