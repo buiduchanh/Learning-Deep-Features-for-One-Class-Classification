@@ -16,7 +16,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-input_shape = (96, 96, 3)
+input_shape = (224, 224, 3)
 classes = 2
 #feature_out = 512 #secondary network out for VGG16
 feature_out = 1280 #secondary network out for MobileNet
@@ -28,20 +28,22 @@ lambda_ = 0.1 #for compact loss
 data_path = 'D:\Project\deep_one\Deep_Descriptive\data\kyocera'
 X_train_s, X_ref, y_ref, X_test_s, X_test_b ,x_test_s_path, x_test_b_path = kyocera_data(data_path)
 
-mobile = MobileNetV2(include_top=True, input_shape=input_shape, alpha=alpha,
-                         depth_multiplier=1, weights='imagenet')
+# mobile = MobileNetV2(include_top=True, input_shape=input_shape, alpha=alpha,
+#                          depth_multiplier=1, weights='imagenet')
 
+mobile = VGG16(include_top=True, input_shape=input_shape, weights='imagenet')
 mobile.layers.pop() 
 
 for layer in mobile.layers:
-    if layer.name == "block_13_expand": # "block5_conv1": for VGG16
+    # if layer.name == "block_13_expand": # "block5_conv1": for VGG16
+    if layer.name == "block5_conv1":
         break
     else:
         layer.trainable = False
 
 model = Model(inputs=mobile.input,outputs=mobile.layers[-1].output)
 
-model.load_weights('model/model_t_499.h5')
+model.load_weights('D:\Project\deep_one\Deep_Descriptive\model\model_t_smd_300.h5')
 # model.load_weights('model/model_t_0_des-2.918100118637085_compact-0.3944999873638153.h5')
 
 print('xtrain shape', X_train_s.shape)
