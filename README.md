@@ -10,6 +10,10 @@ Pre-processing
 --------------
 This code is developed targeting keras framework. Please make sure keras > 2.1 and python 3.5 is installed.
  
+Prepare data
+--------------
+- It is describe in `data.py`. 
+The image is read as numpy array and the label has shape ( 1, n) with n is number of class
 
 Training/ Testing
 -----------------
