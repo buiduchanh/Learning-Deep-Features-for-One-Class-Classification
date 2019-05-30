@@ -25,31 +25,6 @@ def kyocera_data(data_path):
         x_train_s.append(cp1)
         x_ref.append(cp1)
         y_ref.append(np.array([1, 0]))
-    # print(len(x_train_s),len(x_ref), len(y_ref))
-
-    # cp1_abnormal_path = os.path.join(cp1_path, 'train', 'NG')    
-    # cp1_abnormal = sorted(glob.glob('{}/*'.format(cp1_abnormal_path)))
-    # cp1_abnormal = cp1_abnormal [:100]
-    # for cp1_ in cp1_abnormal:
-    #     x_ref.append(cp1_)
-    #     y_ref.append(np.array([0, 1 ,0]))
-    # print(len(x_train_s),len(x_ref), len(y_ref))
-
-    # smd_train = os.path.join(smd_path, 'train', 'OK')
-    # smd_train_files = sorted(glob.glob('{}/*'.format(smd_train)))
-    # for smd_file in smd_train_files:
-    #     x_ref.append(smd_file)
-    #     y_ref.append(np.array([0, 1]))
-    # print(len(x_train_s),len(x_ref), len(y_ref))
-
-    # smd_abnormal_train = os.path.join(smd_path, 'train', 'NG')
-    # smd_abnormal_files = sorted(glob.glob('{}/*'.format(smd_abnormal_train)))
-    # smd_abnormal_files = smd_abnormal_files[:10]
-    # for smd_file_ in smd_abnormal_files:
-    #     x_ref.append(smd_file_)
-    #     y_ref.append(np.array([0, 0, 0, 1]))
-    # print(len(x_train_s),len(x_ref), len(y_ref))
-
     # #make test data
     cp1_test_path =  os.path.join(cp1_path, 'test')
     cp1_test_normal = os.path.join(cp1_test_path,'OK')
@@ -76,14 +51,12 @@ def kyocera_data(data_path):
     # X_ref : reference data
     # X_test_s : test normal data
     # X_test_b : test abnormal data
-    # print(len(X_train_s),len(X_ref), len(y_ref))
-    # exit()
+    
     return X_train_s, X_ref, y_ref, X_test_s, X_test_b, x_test_s_path, x_test_b_path
 
 def resize_data(path):
     x_out = []
     for item in path:
-        # print(item)
         img = cv2.imread(item)
         img = cv2.resize(img,(224,224))
         x_out.append(img.astype('float32') / 255)

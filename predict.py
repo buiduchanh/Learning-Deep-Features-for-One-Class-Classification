@@ -62,13 +62,12 @@ test_b = ms.transform(test_b)
 clf = LocalOutlierFactor(n_neighbors=5)
 y_pred = clf.fit(train)
 
-# 異常スコア
 Z1 = -clf._decision_function(test_s)
 Z2 = -clf._decision_function(test_b)
 
-#ROC曲線の描画
+#ROC
 y_true = np.zeros(len(test_s)+len(test_b))
-y_true[len(test_s):] = 1#0:正常、1：異常
+y_true[len(test_s):] = 1
 path = x_test_s_path + x_test_b_path
 
 # precision, recall, f1 = caculate_acc(y_true, np.hstack((Z1,Z2)),path)

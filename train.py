@@ -109,8 +109,7 @@ def train(x_target, x_ref, y_ref, epoch_num):
             model_r.save_weights('model/model_r_smd_{}.h5'.format(epochnumber))
 
 if __name__ == "__main__":
-    #data_path = 'D:\Project\deep_one\Deep_Descriptive\data'
-    data_path = '/home/asilla/hanh/Deep_Descriptive/data/kyocera' 
+    data_path = '' 
     X_train_s, X_ref, y_ref, X_test_s, X_test_b, _, _ = kyocera_data(data_path)
     train(X_train_s, X_ref, y_ref, 600)
 
